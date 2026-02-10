@@ -1,9 +1,11 @@
+import { Roupa } from "./model/Roupa";
+import { Sapato } from "./model/Sapato";
+import { Acessorio } from "./model/Acessorio";
+
 import { Input } from "./src/util/Input";
 import { Colors } from "./src/util/Colors";
 import { formatarMoeda } from "./src/util/Currency";
-
-
-// Seção para testes futuros
+// import { Produto } from "./model/Produto"; Instanciando para testes, antes de tornar abstrata
 
 
 // Seção para futura criação de Objeto Global da Classe Produto Controller
@@ -17,9 +19,29 @@ export function main() {
 
     let opcao: number;
 
-    // Chamada para a criação de produtos testes para validar a aplicação
+    /* Testes para a classe Produto antes de torná-la abstrata
+     Objeto da Classe Produto (teste)     
+    const produtoTeste: Produto = new Produto(1, "Vestido", 1, 20.4);
+    produtoTeste.id
+    produtoTeste.nome;
+    produtoTeste.preco;
+    produtoTeste.tipo;
+    produtoTeste.visualizar();*/
 
-     //Criação do Menu
+    // Testes antes da Criação do Produto Controller
+    // Roupa
+    const roupa = new Roupa(123, "Vestido Pink Floral", 1, 350, "M", "Viscose", "Vestido");
+    roupa.visualizar();
+
+    // Sapato
+    const sapato = new Sapato(456, "Sapato All Black", 2, 130.50, 35);
+    sapato.visualizar();
+
+    // Acessorio
+    const acessorio = new Acessorio(789, "Bolsa Lateral Couro", 3, 400, "Bolsa");
+    acessorio.visualizar();
+    
+    //Criação do Menu
 
     while (true) {
         console.log(Colors.fg.magenta,
@@ -47,22 +69,22 @@ export function main() {
 
         switch (opcao) {
             case 1:
-                console.log("Criar Produto");                
+                console.log("Criar Produto");
                 keyPress();
                 break;
 
             case 2:
-                console.log("Listar todos os Produtos");                
+                console.log("Listar todos os Produtos");
                 keyPress();
                 break;
 
             case 3:
-                console.log("Consultar Produto por ID");                
+                console.log("Consultar Produto por ID");
                 keyPress();
                 break;
 
             case 4:
-                console.log("Atualizar Produto");                
+                console.log("Atualizar Produto");
                 keyPress();
                 break;
 
@@ -106,6 +128,8 @@ function keyPress(): void {
 }
 
 // Seção para futura criação de Produtos para testes
+
+
 
 
 
