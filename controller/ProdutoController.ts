@@ -64,14 +64,14 @@ export class ProdutoController implements ProdutoRepository {
     procurarPorNomeProduto(nome: string): void {
 
         // Filtragem dos dados
-        const buscaProdutoPorNome = this.listaProdutos.filter(nomeProduto =>
-            nomeProduto.nome.toUpperCase().includes(nome.toUpperCase())
+        const buscaProdutoPorNome = this.listaProdutos.filter(produto =>
+            produto.nome.toUpperCase().includes(nome.toUpperCase())
         );
 
         // Listagem dos dados filtrados
         if (buscaProdutoPorNome.length > 0) {
             console.log(Colors.fg.green, `Lista de todos os produtos com o nome: ${nome}`, Colors.reset);
-            buscaProdutoPorNome.forEach(nomeProduto => nomeProduto.visualizar());
+            buscaProdutoPorNome.forEach(produto => produto.visualizar());
         } else {
             console.log(Colors.fg.red, `Nenhum produto encontrado com o nome: ${nome}`, Colors.reset);
         }

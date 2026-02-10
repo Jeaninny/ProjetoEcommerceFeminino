@@ -5,11 +5,14 @@ import { Input } from "./src/util/Input";
 import { Colors } from "./src/util/Colors";
 import { formatarMoeda } from "./src/util/Currency";
 import { ProdutoController } from "./controller/ProdutoController";
+import { Carrinho } from "./model/Carrinho";
 //import { Produto } from "./model/Produto"; Instanciando para testes, antes de tornar abstrata
-
 
 // Criação de Objeto Global da Classe Produto Controller
 const produtoController = new ProdutoController();
+
+// Criação de Objeto Global da Classe Carrinho
+const carrinho = new Carrinho();
 
 // Seção para futura criação de array contendo os tipos de produto
 const tipoProdutos = ['Roupa', 'Sapato', 'Acessorio'];
@@ -35,6 +38,7 @@ export function main() {
         console.log("           4 - Atualizar Produto                           ");
         console.log("           5 - Deletar Produto                             ");
         console.log("           6 - Consultar Produto por nome                  "); //Função Extra
+        console.log("           7 - Carrinho                                    "); //Função Extra
         console.log("           0 - Sair                                        ");
         console.log("*********************************************************",
             Colors.reset);
@@ -85,12 +89,16 @@ export function main() {
                 keyPress();
                 break;
 
+            case 7:
+                console.log("Consultar Carrinho");
+                acessarCarrinho();
+                keyPress();
+                break;
             default:
                 console.log(Colors.fg.redstrong,
                     "Operação inválida! Tente novamente.",
                     Colors.reset);
                 keyPress();
-                break;
         }
     }
 }
@@ -138,7 +146,6 @@ function criarProduto(): void {
                 nome, tipo, preco, modelo));
             break;
     }
-
 }
 
 // Opção 2: Listar todos os Produto
@@ -300,6 +307,107 @@ function consultarPorNome() {
 }
 
 
+// Opção 7: Acessar Carrinho - Funcionalidade Extra
+
+function acessarCarrinho() {
+
+    console.log(Colors.fg.yellow,
+        "**********************************************");
+    console.log("              CARRINHO                           ");
+    console.log("************************************************", Colors.reset);
+    console.log(" 1 - Adicionar itens Carrinho");
+    console.log(" 2 - Visualizar o Carrinho");
+    console.log(" 3 - Remover itens do Carrinho");
+    console.log(" 4 - Voltar ao menu principal");
+
+    let opcaoMenu: number;
+
+    while (true) {
+
+        console.log("Digite a opção desejada: ");
+        opcaoMenu = Input.questionInt("");
+
+
+        switch (opcaoMenu) {
+            case 1:
+                console.log("Digite o ID do produto que deseja adicionar no carrinho: ");
+                let id = Input.questionInt("");
+
+                const produto = produtoController.buscarNoArray(id);
+
+                if (produto !== null) {
+                    console.log(Colors.fg.whitestrong,
+                        `Deseja adicionar o produto de ID: ${id} ao Carrinho (Sim/Não)? `,
+                        Colors.reset);
+                    let confirmacao = Input.question("").toUpperCase();
+
+                    if (confirmacao === "SIM") {
+                        carrinho.adicionarNoCarrinho(produto);
+                    } else {
+                        console.log(Colors.fg.red, "Operação cancelada!",
+                            Colors.reset);
+                    }
+                } else {
+                    console.log(Colors.fg.red,
+                        `O produto de ID: ${id} não foi encontrado! `,
+                        Colors.reset);
+                }
+
+                keyPress();
+                break;
+
+            case 2:
+                console.log("Visualizar Carrinho");
+                carrinho.visualizarCarrinho();
+                keyPress();
+                break;
+
+            case 3:
+                console.log("Remover Itens do Carrinho");
+                console.log("Itens atualmente no Carrinho: ");
+                carrinho.visualizarCarrinho();
+
+
+                console.log("Digite o ID do produto que deseja excluir do carrinho: ");
+                let idProduto = Input.questionInt("");
+
+                const produtoCarrinho = carrinho.buscarNoCarrinho(idProduto);
+
+                if (produtoCarrinho !== null) {
+                    console.log(Colors.fg.whitestrong,
+                        `Deseja deletar o produto de ID: ${idProduto} ao Carrinho (Sim/Não)? `,
+                        Colors.reset);
+                    let confirmacao = Input.question("").toUpperCase();
+
+                    if (confirmacao === "SIM") {
+                        carrinho.removerDoCarrinho(idProduto);
+                    } else {
+                        console.log(Colors.fg.red, "Operação cancelada!",
+                            Colors.reset);
+                    }
+                } else {
+                    console.log(Colors.fg.red,
+                        `O produto de ID: ${idProduto} não foi encontrado! `,
+                        Colors.reset);
+                }
+
+                keyPress();
+                break;
+
+            case 4:
+                console.log("Retornando ao Menu Principal");
+                main();
+                break;
+
+            default:
+                console.log(Colors.fg.redstrong,
+                    "Operação inválida! Tente novamente.",
+                    Colors.reset);
+                keyPress();
+        }
+    }
+
+}
 // Função com os dados da pessoa desenvolvedora
 export function sobre(): void {
     console.log("**************************************************");
